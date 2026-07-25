@@ -158,11 +158,11 @@ export default function Assistant() {
         </p>
       </div>
       <div className="section-inner reveal" data-in={visible} style={{ transitionDelay: '100ms' }}>
-        {!API_KEY && (
+        {/* {!API_KEY && (
           <div className="chat-warning">
             ⚠ No API key configured. Add VITE_ANTHROPIC_API_KEY to a .env file to enable live answers — see README.md.
           </div>
-        )}
+        )} */}
         <div className="chat-shell">
           <div className="chat-head">
             <span className="dot"></span>
