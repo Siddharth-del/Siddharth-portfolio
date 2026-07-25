@@ -12,13 +12,19 @@ import Footer from './components/Footer';
 
 export default function App() {
   const [navOpen, setNavOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
       <div className="bg-grid" aria-hidden="true"></div>
       <MobileNav open={navOpen} onToggle={() => setNavOpen((o) => !o)} onClose={() => setNavOpen(false)} />
-      <div className="shell">
-        <Sidebar open={navOpen} onClose={() => setNavOpen(false)} />
+      <div className="shell" style={{ '--sidebar-w': collapsed ? '76px' : '272px' }}>
+        <Sidebar
+          open={navOpen}
+          onClose={() => setNavOpen(false)}
+          collapsed={collapsed}
+          onToggleCollapse={() => setCollapsed((c) => !c)}
+        />
         <main className="main">
           <Hero />
           <About />
