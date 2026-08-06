@@ -89,6 +89,13 @@ export default function Assistant() {
       });
 
       if (!resp.ok) {
+        // A 404/405 on this exact route almost always means the frontend was
+        // deployed without VITE_API_BASE_URL pointing at the backend (or a
+        // reverse-proxy rewrite for /api/*), not a transient outage — so
+        // surface that distinctly instead of a generic "try again" message.
+        if (resp.status === 404 || resp.status === 405) {
+          throw new Error('NOT_CONFIGURED');
+        }
         throw new Error(`Backend responded with ${resp.status}`);
       }
 
@@ -100,11 +107,15 @@ export default function Assistant() {
         return copy;
       });
     } catch (err) {
+      const misconfigured = err instanceof Error && err.message === 'NOT_CONFIGURED';
+      if (import.meta.env.DEV) console.error('Assistant request failed:', err);
       setMessages((m) => {
         const copy = [...m];
         copy[copy.length - 1] = {
           role: 'assistant',
-          text: "Sorry — I couldn't reach the assistant service just now. Please try again in a moment, or reach Siddharth directly via the contact section.",
+          text: misconfigured
+            ? "The assistant backend isn't reachable from this deployment (no API URL configured). If you're the site owner, set `VITE_API_BASE_URL` to the Spring Boot backend's URL and redeploy."
+            : "Sorry — I couldn't reach the assistant service just now. Please try again in a moment, or reach Siddharth directly via the contact section.",
         };
         return copy;
       });

@@ -182,52 +182,10 @@ export const projects = [
   },
 ];
  
-// Full context block sent to the AI assistant as grounding data.
-export const RESUME_CONTEXT = `
-Siddharth — Backend Engineer (Java / Spring Boot)
-Location: Greater Noida, UP, India. Email: GautamSiddharth131004@gmail.com. Phone: +91-9368217462.
-
-PROFESSIONAL SUMMARY
-Backend engineer experienced in building Java and Spring Boot systems. Developed AgriPro, a live IoT and AI powered agriculture platform for real-time crop monitoring and automated irrigation using sensor data and weather APIs. Proficient across the backend stack: REST API design, JWT authentication, Docker deployment, AI integration. Strong focus on scalable, reliable systems.
-
-EDUCATION
-Gautam Buddha University, Greater Noida — B.Tech, Computer Science and Engineering, 2022–2026.
-
-TECHNICAL SKILLS
-Languages: Java, SQL, Python.
-Backend & Frameworks: Spring Boot, Spring Security, Spring Data JPA, REST API Development, JWT Authentication, Microservice Architecture, Spring AI, OAuth.
-Databases: PostgreSQL, MySQL.
-Tools: Docker, VS Code, Postman, IntelliJ IDEA, Git, GitHub.
-Core CS: Data Structures and Algorithms, Object Oriented Programming.
-
-PROJECT: AgriPro (Smart Agriculture System) — Live Demo
-Built an IoT and AI agriculture platform with a Spring Boot backend and JavaScript frontend, connecting ESP32 sensors and a Weather API to monitor soil moisture, temperature, and humidity in real time. Designed 4 RESTful endpoints for sensor ingestion, crop recommendation, and disease detection, with input validation, structured error handling, and pagination for historical sensor data. Integrated Spring AI with dynamic prompt engineering to generate context-aware crop recommendations and disease treatment guidance based on live field conditions. Implemented a tri-state irrigation alert system (OK / WARNING / CRITICAL) with automated email notifications and cooldown logic, removing the need for manual monitoring. Built a crop disease detection module that accepts image uploads, returns a confidence score, and delivers AI-generated treatment suggestions in plain language for non-expert farmers.
-
-PROJECT: Fitness-Tracker — GitHub
-Built a RESTful backend for fitness activity management using Spring Boot with JWT-based authentication and role enforcement. Integrated PostgreSQL with optimized entity relationships and query design, deployed to Neon Cloud with production-ready configuration. Containerized with Docker and set up a CI/CD pipeline for automated, consistent deployments. Validated all endpoints using Postman and ReadyAPI, covering security checks, database operations, and edge cases across 15+ API routes.
-
-PROJECT: Smart Email Reply Generator (AI Integration) — GitHub
-Built a Spring Boot service connecting to the Gemini API to analyze incoming email content and return context-aware replies as structured JSON through a REST endpoint. Designed prompt templates to improve reply relevance and keep output formatting consistent across email types and intents. Implemented request validation and error handling for stable communication between the backend service and the AI model.
-
-CERTIFICATIONS
-Java with Data Structures & Algorithms — PW Skills.
-Java Spring Boot Full Stack eCommerce Project Masterclass — Udemy, April 2026.
-
-NOTE: Exact LinkedIn, GitHub, and live-demo URLs are not included in this data. If asked for them, say they're linked from the resume/portfolio nav and suggest the visitor use the contact section to request them directly — never invent a URL.
-`.trim();
-
-export const SYSTEM_PROMPT = `You are a grounded, factual digital resume assistant representing Siddharth, a Java/Spring Boot backend engineer, to recruiters and visitors on his portfolio site.
-
-Rules:
-- Answer ONLY using the resume data provided below. Never invent employers, dates, metrics, URLs, or facts not present in the data.
-- If asked something not covered by the data (e.g. exact salary expectations, personal details, a real URL that isn't given), say plainly that you don't have that information and suggest they use the contact section.
-- Speak in third person about Siddharth ("he built...", "his experience includes...") in a professional, concise, warm tone — like a sharp colleague giving a recruiter a walkthrough, not a marketing bot.
-- Prefer specifics from the data (endpoint counts, tech names, real bullet details) over vague praise.
-- Keep answers tight: 2-5 sentences unless the question genuinely needs a list.
-- You may use light markdown: **bold** for key terms, backticks for tech/code terms, and "- " for short lists.
-
-RESUME DATA:
-${RESUME_CONTEXT}`;
+// Note: resume grounding data / system prompt used to live here and be sent
+// straight to the Anthropic API from the browser. That architecture has been
+// replaced — the Spring Boot backend now owns the grounding data and prompt
+// for /api/ask-question, so nothing client-side needs to duplicate it here.
 
 export const suggestedQuestions = [
   'Tell me about AgriPro',

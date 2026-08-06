@@ -189,18 +189,22 @@ p{color:var(--text-dim);}
 .hero-bg__media{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;}
 
 /* Mobile video-framing fix: a 16:9 video forced to cover a tall/narrow
-   phone viewport gets zoomed in hard, cropping the subject out of frame.
-   Shrink the hero height and raise the focal point per breakpoint so the
-   subject stays visible instead of being cut off. Laptop/desktop keeps
-   the original full-bleed 100svh cover since its viewport ratio is
-   already close to the video's 16:9. */
+   phone viewport gets zoomed in hard — on a ~390px-wide screen, object-fit:cover
+   only shows roughly the center 26% of the source frame's width. The source
+   footage frames the subject in the right third of the shot (dual monitors
+   take up the left two-thirds), so a horizontally-centered crop was landing
+   almost entirely on empty desk — the video looked barely visible/mostly
+   dark. Shifting the horizontal focal point toward the subject, plus raising
+   the vertical focal point per breakpoint, keeps him actually in frame.
+   Desktop keeps object-position:center since its wider crop already shows
+   both monitors and the subject together. */
 @media (max-width: 860px){
   .hero{min-height:88vh;min-height:88svh;}
-  .hero-bg__media{object-position:center 14%;}
+  .hero-bg__media{object-position:58% 14%;}
 }
 @media (max-width: 480px){
   .hero{min-height:78vh;min-height:78svh;}
-  .hero-bg__media{object-position:center 10%;}
+  .hero-bg__media{object-position:58% 10%;}
 }
 
 .hero-bg__scrim{
@@ -557,13 +561,21 @@ footer{padding:40px 64px 60px;font-family:var(--mono);font-size:11.5px;color:var
   .main{margin-left:0;}
   .section{padding:100px 24px 30px;}
   .section:first-of-type{padding-top:100px;}
-  .section.hero:first-of-type{padding-top:0;}
-  .hero{padding:0 20px;}
-  .hero-content{padding-bottom:100px;}
+  .section.hero:first-of-type{padding-top:76px;}
+
+  /* Hero on mobile: was `justify-content:center`, which vertically centers
+     hero-content + stat-row as a block. When that block is taller than the
+     hero's available height (a wrapped 5-6 line heading on a narrow phone),
+     flex centering lets it overflow equally above AND below — the overflow
+     above ignores padding-top and renders under the fixed hamburger button.
+     flex-start + an explicit top offset (set above, on the higher-specificity
+     .section.hero:first-of-type selector so it isn't silently overridden)
+     is the fix. */
+  .hero{padding:0 20px;justify-content:flex-start;}
+  .hero-content{padding-bottom:32px;}
   .live-badge{right:20px;top:20px;font-size:10px;padding:6px 10px;}
   .scroll-cue{left:20px;bottom:130px;}
   .stat-row--overlay{position:relative;left:auto;right:auto;bottom:auto;border-radius:10px;grid-template-columns:1fr;margin-top:32px;}
-  .hero-content{padding-bottom:32px;}
   .menu-toggle{
     display:flex;position:fixed;top:18px;left:18px;z-index:200;
     width:42px;height:42px;background:var(--surface);border:1px solid var(--border);border-radius:8px;
@@ -576,5 +588,40 @@ footer{padding:40px 64px 60px;font-family:var(--mono);font-size:11.5px;color:var
   }
   .scrim.show{opacity:1;pointer-events:auto;}
   .stat-row{grid-template-columns:1fr;}
-  .hero{padding-top:70px;}
+
+  /* Footer used the desktop 64px side padding at every width, so on mobile
+     it sat visibly further right than every section above it. Match the
+     .section mobile padding for a consistent left edge. */
+  footer{padding:32px 24px 44px;}
+
+  /* Tighten card padding so more content fits comfortably in a ~320-400px
+     column instead of ~2/3 of the viewport being eaten by whitespace. */
+  .project{padding:22px;}
+  .edu-card{padding:18px;}
+  .chat-shell{height:460px;}
+
+  /* Architecture diagrams are wider than any phone screen by design (they're
+     real diagrams, not simplified for mobile) and scroll horizontally inside
+     .arch-wrap. Give that an explicit affordance instead of an unmarked,
+     easy-to-miss horizontal scrollbar. */
+  .arch-wrap{
+    padding:14px;
+    -webkit-overflow-scrolling:touch;
+    position:relative;
+    mask-image:linear-gradient(90deg, black calc(100% - 28px), transparent 100%);
+    -webkit-mask-image:linear-gradient(90deg, black calc(100% - 28px), transparent 100%);
+  }
+
+  /* Comfortable 44px+ touch targets */
+  .chat-send{padding:0 18px;min-height:44px;}
+  .chat-input-row input{min-height:44px;}
+}
+
+@media (max-width: 480px){
+  .hero h1{font-size:clamp(28px, 8vw, 34px);}
+  .project{padding:18px;}
+  .p-block{padding:0;}
+  .stat{padding:16px 14px;}
+  .chat-shell{height:420px;}
+  .arch-wrap{padding:12px;}
 }
