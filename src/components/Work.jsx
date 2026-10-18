@@ -180,7 +180,7 @@ export default function Work() {
             <article className={`project ${idx % 2 ? 'project--flip' : ''} ${p.pending ? 'project--pending' : ''}`} key={p.id}>
               <div className="project__media">
                 {p.screenshots[0] ? (
-                  <button className="project__shot" onClick={() => setOpen(p.id)} aria-label={`Open ${p.name} case study`}>
+                  <button className="project__shot" onClick={() => setOpen(p.id)} aria-label={`${p.screenshots[0].url}: open ${p.name} case study`}>
                     <BrowserFrame shot={p.screenshots[0]} />
                   </button>
                 ) : (

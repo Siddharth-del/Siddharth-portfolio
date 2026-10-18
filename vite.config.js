@@ -3,6 +3,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: '/Siddharth-portfolio/',
+  base: process.env.GITHUB_ACTIONS
+    ? '/Siddharth-portfolio/'
+    : '/',
   plugins: [react()],
 });

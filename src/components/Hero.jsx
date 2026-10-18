@@ -1,6 +1,7 @@
 import { profile, quickFacts, heroStack } from '../data/portfolio';
 import { DownloadIcon, GitHubIcon, LinkedInIcon, MailIcon } from './Icons';
-import portrait from '../assets/siddharth.webp';
+import ApiConsole from './ApiConsole';
+import avatar from '../assets/siddharth-face.webp';
 
 export default function Hero() {
   const callHref = `mailto:${profile.email}?subject=${encodeURIComponent('Discovery call with Siddharth')}`;
@@ -12,7 +13,10 @@ export default function Hero() {
           <p className="hero__eyebrow">Java Developer • Portfolio</p>
 
           <h1 className="hero__hello" id="hero-name">
-            Hi <span className="wave" role="img" aria-label="waving hand">👋</span> I'm <strong>{profile.name}</strong>
+            <img className="hero__avatar" src={avatar} alt="" width="240" height="240" />
+            <span>
+              Hi <span className="wave" role="img" aria-label="waving hand">👋</span> I'm <strong>{profile.name}</strong>
+            </span>
           </h1>
 
           <p className="hero__statement">
@@ -53,13 +57,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <figure className="hero__portrait">
-          <img src={portrait} alt="Siddharth at his desk with a Java laptop and Spring Boot code on screen" width="900" height="1200" />
-          <figcaption className="hero__status">
-            <span className="hero__dot" aria-hidden="true" />
-            Open to backend roles, graduating 2026
-          </figcaption>
-        </figure>
+        <ApiConsole />
       </div>
 
       <div className="container">
